@@ -1,0 +1,48 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "main": "electron/dist/main.cjs",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "electron:serve": "concurrently \"cross-env NODE_ENV=development nuxt dev\" \"wait-on http://localhost:3000 && cross-env NODE_ENV=development electron .\"",
+    "build:electron": "npm run electron:build && nuxt build && electron-builder",
+    "electron:build": "tsc -p electron/tsconfig.json && npm run rename-to-cjs",
+    "rename-to-cjs": "find electron/dist -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.cjs\"' _ {} \\;"
+  },
+  "dependencies": {
+    "nuxt": "^3.13.0",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/node": "^22.5.4",
+    "concurrently": "^9.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^32.0.2",
+    "electron-builder": "^25.0.5",
+    "typescript": "^5.6.2",
+    "wait-on": "^8.0.0"
+  },
+  "build": {
+    "appId": "com.nuxt.electron.app",
+    "files": [
+      "dist/**/*",
+      "electron/dist/**/*"
+    ],
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "outDir": "./dist",  // This will output compiled JS files in the electron/dist folder
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
+}
